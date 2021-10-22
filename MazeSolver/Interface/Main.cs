@@ -35,7 +35,7 @@ namespace MazeSolver
             movesLeftLbl.Text = "Moves left: " + moveAmount + "/" + moveAmount;
         }
 
-        public void PrintInformation(string text, Icons icon)
+        public void PrintEvent(string text, Icons icon)
         {
             Bitmap image = null;
             switch (icon)
@@ -57,9 +57,9 @@ namespace MazeSolver
                     break;
             }
             imageList.Images.Add(image);
-            dataView.SmallImageList = imageList;
-            dataView.View = View.Details;
-            dataView.Items.Add(new ListViewItem { ImageIndex = imageList.Images.Count - 1, Text = text});
+            eventView.SmallImageList = imageList;
+            eventView.View = View.Details;
+            eventView.Items.Add(new ListViewItem { ImageIndex = imageList.Images.Count - 1, Text = text});
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace MazeSolver
         {
             int selectedMoves = int.Parse(maxMovesGroupBox.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text);
             UpdateControls(false);
-            mazeSolver = new Source.Solver(this, mazes, selectedMoves);
+            mazeSolver = new Solver(this, mazes, selectedMoves);
             mazeSolver.SolveMaze();
         }
 
@@ -82,7 +82,7 @@ namespace MazeSolver
             mazes.SetMaze(selectedMazeBox.SelectedIndex);
             mazeTextBox.Text = mazes.GetMaze();
             UpdateControls(true);
-            dataView.Items.Clear();
+            eventView.Items.Clear();
         }
 
         private void selectedMazeBox_KeyDown(object sender, KeyEventArgs e)

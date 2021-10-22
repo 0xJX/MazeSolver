@@ -13,7 +13,7 @@ namespace MazeSolver.Source
             maxMoves,
             movesLeft;
         public bool
-            finished = false;
+            mazeSolved = false;
 
         private string IsValidMove(Move newMove)
         {
@@ -110,6 +110,12 @@ namespace MazeSolver.Source
 
         private bool PerformMove(int x, int y)
         {
+            if(mazeSolved)
+            {
+                mainInterface.PrintEvent("Maze is already finished, move cancelled.", Icons.FAILED_MOVE);
+                return false;
+            }
+
             Move newMove = new Move(x, y);
 
             // Check if the new move is valid.
@@ -119,24 +125,27 @@ namespace MazeSolver.Source
             {
                 // Perform move succeeded, update maze array to new move position.
                 UpdateMaze(newMove);
-                mainInterface.PrintInformation("Move: " + newMove.position.GetPositionString() + " - Moves left: " + movesLeft, Icons.MOVE);
+                mainInterface.PrintEvent("Move: " + newMove.position.GetPositionString() + " - Moves left: " + movesLeft, Icons.MOVE);
             }
             else
             {
                 // Can't move there.
-                mainInterface.PrintInformation(validMoveStatus, Icons.FAILED_MOVE);
+                mainInterface.PrintEvent(validMoveStatus, Icons.FAILED_MOVE);
                 return false;
             }
 
-            if(validMoveStatus.StartsWith("Finished"))
-                mainInterface.PrintInformation(validMoveStatus, Icons.EXIT);
+            if (validMoveStatus.StartsWith("Finished"))
+            {
+                mainInterface.PrintEvent(validMoveStatus, Icons.EXIT);
+                mazeSolved = true;
+            }
 
             return true;
         }
 
         private void Maze1Demo()
         {
-            // Small demo of manually solved path.
+            // Small demo of manually solved path. 7 moves.
             PerformMove(0, -1);
             PerformMove(helper.GetMaxMovement(Direction.LEFT), 0);
             PerformMove(0, -13);
@@ -177,16 +186,19 @@ namespace MazeSolver.Source
 
         public void SolveMaze()
         {
-            mainInterface.PrintInformation("Begin solving", Icons.START);
+            mainInterface.PrintEvent("Begin solving", Icons.START);
 
             // Todo: add algorithms here
             switch (currentMaze.GetSelectedIndex())
             {
                 case 0:
-                    Maze1Demo();
+                    if (maxMoves <= 20)
+                        Maze1Demo();
+                    else
+                        Maze1Demo2();
                     break;
                 case 1:
-                    mainInterface.PrintInformation("No solutions added yet.", Icons.INFO);
+                    mainInterface.PrintEvent("No solutions added yet.", Icons.INFO);
                     break;
             }
         }

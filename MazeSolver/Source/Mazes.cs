@@ -28,7 +28,27 @@ namespace MazeSolver.Source
             "#                                   #" + Environment.NewLine +
             "##################^##################"
                 ,
-            "TODO: Maze2"
+            "WALL='#', EXIT='E', PATH=' ', PLAYER='^'" + Environment.NewLine +
+            "######################################" + Environment.NewLine +
+            "#       # ###       ##   ###  #      #" + Environment.NewLine +
+            "# ### # #     ### #### #  ##  # ###  #" + Environment.NewLine +
+            "#   # # # ##### #       #  ## # # #  #" + Environment.NewLine +
+            "# ### #   ##    #######  # #  # # #  #" + Environment.NewLine +
+            "#   # # # #  ## #      # # #    # #  #" + Environment.NewLine +
+            "# ### # # # #   # #### # # # ## # #  #" + Environment.NewLine +
+            "#   # # # # # ###    # # # #         #" + Environment.NewLine +
+            "# # # # ### # # #### # # #   #########" + Environment.NewLine +
+            "#   # #   # # #   ^  # # # # #       #" + Environment.NewLine +
+            "# # # ## ## # ## ##### # # #   ##### #" + Environment.NewLine +
+            "#   #     # #    #   # # # #####     #" + Environment.NewLine +
+            "# #########  ##### # ##  #       #####" + Environment.NewLine +
+            "#         ##       #    ## ####### # E" + Environment.NewLine +
+            "######### ################ #       # #" + Environment.NewLine +
+            "#         #            #     ####### #" + Environment.NewLine +
+            "# ######### ###### # # # #####       #" + Environment.NewLine +
+            "#   #   #   #      # # ### # # #######" + Environment.NewLine +
+            "# #   #   # # #### # #               #" + Environment.NewLine +
+            "######################################"
         };
 
         private string 
