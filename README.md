@@ -1,7 +1,7 @@
 # MazeSolver
 Text based maze solving. Made in C#.
 
-![alt text](https://i.imgur.com/KjQ1jkU.jpg)
+![alt text](https://i.imgur.com/DsPvQoL.jpg)
 
 Current status:
 - Maze parsing works.
