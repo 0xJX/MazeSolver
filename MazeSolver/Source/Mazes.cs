@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace MazeSolver.Solver
+namespace MazeSolver.Source
 {
     public class Mazes
     {

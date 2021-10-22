@@ -69,9 +69,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solver\Mazes.cs" />
-    <Compile Include="Solver\Solver.cs" />
-    <Compile Include="Solver\Types.cs" />
+    <Compile Include="Source\Helper.cs" />
+    <Compile Include="Source\Mazes.cs" />
+    <Compile Include="Source\Solver.cs" />
+    <Compile Include="Source\Types.cs" />
     <EmbeddedResource Include="Interface\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

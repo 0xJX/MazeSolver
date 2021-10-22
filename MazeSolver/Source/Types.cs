@@ -1,7 +1,24 @@
 ﻿using System.Linq;
 
-namespace MazeSolver.Solver
+namespace MazeSolver.Source
 {
+    public enum Direction
+    {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN
+    }
+
+    public enum Icons
+    {
+        MOVE,
+        START,
+        EXIT,
+        FAILED_MOVE,
+        INFO
+    }
+
     public class Position
     {
         public int x = 0, y = 0;

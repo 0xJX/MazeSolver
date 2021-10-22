@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 
-namespace MazeSolver.Solver
+namespace MazeSolver.Source
 {
     public class Solver
     {
         private Player player;
         private Mazes currentMaze;
         private Main mainInterface;
+        private Helper helper;
 
-        public int
-            maxMoves, 
+        public static int
+            maxMoves,
             movesLeft;
         public bool
             finished = false;
@@ -18,8 +19,11 @@ namespace MazeSolver.Solver
         {
             bool hitExit = false;
 
+            if (movesLeft == 0)
+                return "No moves left.";
+
             if (newMove.GetMoveSize() == 0)
-                return "No moves left";
+                return "Move size was 0, no movement.";
 
             if (newMove.position.x != 0 && newMove.position.y != 0)
                 return "Invalid move: "+ newMove.position.GetPositionString() + ", no multiple axis per move allowed.";
@@ -72,7 +76,10 @@ namespace MazeSolver.Solver
                 }
             }
 
-            return hitExit ? "Finished maze." : "Successfully performed move.";
+            // Updates moves
+            movesLeft--;
+
+            return hitExit ? ("Finished maze in " + (maxMoves - movesLeft) + " moves.") : "Success";
         }
 
         private void UpdateMaze(Move move)
@@ -111,19 +118,18 @@ namespace MazeSolver.Solver
             if (validMoveStatus.StartsWith("Finished") || validMoveStatus.StartsWith("Success"))
             {
                 // Perform move succeeded, update maze array to new move position.
-                movesLeft--;
                 UpdateMaze(newMove);
-                mainInterface.PrintInformation("Move: " + newMove.position.GetPositionString() + " - Moves left: " + movesLeft, Main.Icons.MOVE);
+                mainInterface.PrintInformation("Move: " + newMove.position.GetPositionString() + " - Moves left: " + movesLeft, Icons.MOVE);
             }
             else
             {
                 // Can't move there.
-                mainInterface.PrintInformation(validMoveStatus, Main.Icons.FAILED_MOVE);
+                mainInterface.PrintInformation(validMoveStatus, Icons.FAILED_MOVE);
                 return false;
             }
 
             if(validMoveStatus.StartsWith("Finished"))
-                mainInterface.PrintInformation(validMoveStatus, Main.Icons.EXIT);
+                mainInterface.PrintInformation(validMoveStatus, Icons.EXIT);
 
             return true;
         }
@@ -132,17 +138,46 @@ namespace MazeSolver.Solver
         {
             // Small demo of manually solved path.
             PerformMove(0, -1);
-            PerformMove(-17, 0);
+            PerformMove(helper.GetMaxMovement(Direction.LEFT), 0);
             PerformMove(0, -13);
             PerformMove(8, 0);
-            PerformMove(0, -3);
-            PerformMove(-2, 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(helper.GetMaxMovement(Direction.LEFT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+        }
+
+        private void Maze1Demo2()
+        {
+            // Small demo2 of manually solved path, uses 24 moves total.
             PerformMove(0, -1);
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, -7);
+            PerformMove(helper.GetMaxMovement(Direction.LEFT) + 1, 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(-2, 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(-2, 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.DOWN));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.DOWN));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.DOWN));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
+            PerformMove(0, helper.GetMaxMovement(Direction.UP));
+            PerformMove(helper.GetMaxMovement(Direction.RIGHT), 0);
         }
 
         public void SolveMaze()
         {
-            mainInterface.PrintInformation("Begin solving", Main.Icons.START);
+            mainInterface.PrintInformation("Begin solving", Icons.START);
 
             // Todo: add algorithms here
             switch (currentMaze.GetSelectedIndex())
@@ -151,7 +186,7 @@ namespace MazeSolver.Solver
                     Maze1Demo();
                     break;
                 case 1:
-                    mainInterface.PrintInformation("No solutions added yet.", Main.Icons.INFO);
+                    mainInterface.PrintInformation("No solutions added yet.", Icons.INFO);
                     break;
             }
         }
@@ -162,6 +197,7 @@ namespace MazeSolver.Solver
             mainInterface = main;
             currentMaze = selectedMaze;
             player = new Player(currentMaze);
+            helper = new Helper(currentMaze);
         }
     }
 }

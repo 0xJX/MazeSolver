@@ -1,4 +1,4 @@
-﻿using MazeSolver.Solver;
+﻿using MazeSolver.Source;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -8,17 +8,8 @@ namespace MazeSolver
 {
     public partial class Main : Form
     {
-        public enum Icons
-        {
-            MOVE,
-            START,
-            EXIT,
-            FAILED_MOVE,
-            INFO
-        }
-
         private Mazes mazes;
-        private Solver.Solver mazeSolver;
+        private Solver mazeSolver;
         private ImageList imageList;
 
         public Main()
@@ -82,7 +73,7 @@ namespace MazeSolver
         {
             int selectedMoves = int.Parse(maxMovesGroupBox.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Text);
             UpdateControls(false);
-            mazeSolver = new Solver.Solver(this, mazes, selectedMoves);
+            mazeSolver = new Source.Solver(this, mazes, selectedMoves);
             mazeSolver.SolveMaze();
         }
 
