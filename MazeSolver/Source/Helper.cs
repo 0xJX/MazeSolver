@@ -12,6 +12,9 @@ namespace MazeSolver.Source
             if (Solver.movesLeft == 0)
                 return 0;
 
+            if (!CanMove(dir))
+                return 0;
+
             string[] newMaze = currentMaze.GetMazeArray();
             bool maxFound = false;
             int x = 0, y = 0, returnAxis = 0;
@@ -68,6 +71,39 @@ namespace MazeSolver.Source
             }
 
             return returnAxis;
+        }
+
+        public bool CanMove(Direction dir)
+        {
+            string[] newMaze = currentMaze.GetMazeArray();
+            Position playerPosition = player.GetPosition(newMaze);
+            Move newMove = null;
+            switch (dir)
+            {
+                case Direction.LEFT:
+                    newMove = new Move(-1, 0);
+                    break;
+                case Direction.RIGHT:
+                    newMove = new Move(1, 0);
+                    break;
+                case Direction.UP:
+                    newMove = new Move(0, -1);
+                    break;
+                case Direction.DOWN:
+                    newMove = new Move(0, 1);
+                    break;
+            }
+            playerPosition.MovePosition(newMove);
+
+            if (playerPosition.y >= newMaze.Length || playerPosition.y < 0)
+                return false;
+
+            char[] newPlayerChar = newMaze[playerPosition.y].ToCharArray();
+
+            if (newPlayerChar[playerPosition.x] == currentMaze.GetWallChar())
+                return false;
+
+            return true;
         }
 
         public Helper(Mazes selectedMaze)
